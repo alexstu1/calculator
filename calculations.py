@@ -2,10 +2,11 @@ class ExpTree:
     '''
     builds a binary tree, then post order solves it
     '''
-    def __init__(self):
-
+    def __init__(self,string):
+        
         self.order=['^','**','*','/','-','+']
         self.legal=['^','**','*','/','-','+']
+        self.answer=self.solve(string)
     def cleanup(self,string):
         idx=0
         string=string.strip(' ')
@@ -79,7 +80,7 @@ class ExpTree:
                         return held.solve()
                     return lst[0]
                 if sym==lst[idx]:
-                    print(sym,lst)
+                    #print(sym,lst)
                     node1=Node(lst.pop(idx))
                     if type(lst[idx-1])==Node:
                         node1.left=lst.pop(idx-1)
@@ -92,7 +93,6 @@ class ExpTree:
                     lst.insert(idx-1,node1)
                     idx=-1
                 idx+=1
-        #[1,'+',2,'*',3,'+',4]
     def solve(self,string):
         string=self.cleanup(string)
         lst=self.enlist(string)
@@ -106,7 +106,6 @@ class Node:
         self.value=value
         self.left=None
         self.right=None
-        #contains legacy subrtraction and division
         self.operators={'+':self.add,'-':self.minus,'*':self.mult,'/':self.div,'**':self.exp,'^':self.exp}
 
     def add(self,a,b):
@@ -126,22 +125,3 @@ class Node:
         right=self.right.solve()
         answer=self.operators[self.value](left,right)
         return answer
-
-
-def test():
-    a=ExpTree()
-    b=a.solve('1/-2*3+4')
-    #lst=a.fix_neg_div(lst)
-    #b=a.parse(lst)
-    print(b)
-
-    
-    '''
-    a=Node('*')
-    b=Node(3)
-    c=Node(4)
-    a.left=b
-    a.right=c
-    print(a.solve())
-    '''
-test()

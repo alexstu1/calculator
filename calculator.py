@@ -151,12 +151,12 @@ class Window:
     def clear_all(self):
         self.ent.delete(0,END)
         self.show_eq_text.set('')
-        self.held=None
-        self.held_sym=None
+        self.held=''
+        self.held_sym=''
         self.hist_list=[]
         self.update_mem_or_hist()
     def hold(self,button):
-        if self.held == None:
+        if self.held == '':
             self.held=str(self.ent.get())
         if self.held!='0':
             self.held=self.held.lstrip('0 ')
@@ -164,8 +164,11 @@ class Window:
         self.ent.delete(0,END)
         self.show_eq_text.set(self.held+' '+self.held_sym)
     def equals(self):
+        '''
+        from the eval() era
         if self.held_sym==None or self.ent.get()=='' or self.held==None:
             return
+        '''
         if self.ent.get()=='0' and self.held_sym=='/':
             self.clear_entry()
             self.ent.insert(0,'ERROR: Divide by 0')
@@ -173,19 +176,16 @@ class Window:
         hold=str(self.ent.get())
         hold=hold.lstrip(' 0')
 
-        tree=ExpTree()
-        result=tree.solve(self.held+self.held_sym+hold)
-        #result=eval(self.held+self.held_sym+hold)
-        
-        
+        tree=ExpTree(self.held+self.held_sym+hold)
+        result=tree.answer
         self.hist_list.append(self.held+self.held_sym+hold+'='+str(result))
         if len(self.hist_list)>15:
             self.hist_list.pop(0)
         self.update_mem_or_hist()
         self.ent.delete(0,END)
         self.show_eq_text.set('')
-        self.held=None
-        self.held_sym=None
+        self.held=''
+        self.held_sym=''
         self.ent.insert(0,result)
     def mem_clear(self):
         self.mem_hist=[0]

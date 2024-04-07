@@ -1,5 +1,5 @@
 from tkinter import *
-
+from calculations import ExpTree
 class Window:
     def __init__(self,width):
         self.root=Tk()
@@ -172,7 +172,12 @@ class Window:
             return
         hold=str(self.ent.get())
         hold=hold.lstrip(' 0')
-        result=eval(self.held+self.held_sym+hold)
+
+        tree=ExpTree()
+        result=tree.solve(self.held+self.held_sym+hold)
+        #result=eval(self.held+self.held_sym+hold)
+        
+        
         self.hist_list.append(self.held+self.held_sym+hold+'='+str(result))
         if len(self.hist_list)>15:
             self.hist_list.pop(0)

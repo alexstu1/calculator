@@ -1,5 +1,5 @@
 from tkinter import *
-from calc_notree import solve
+from calculations import solve
 def startup():
     root=Tk()
     root.title('Calculator')
